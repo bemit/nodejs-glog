@@ -1,4 +1,4 @@
-import fs from 'fs'
+import * as fs from 'fs'
 import { expect, describe, test } from '@jest/globals'
 import { LogManager } from '@bemit/glog/LogManager'
 import { LoggerTask } from '@bemit/glog/LoggerTask'
