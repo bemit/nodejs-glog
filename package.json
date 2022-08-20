@@ -22,8 +22,9 @@
     "exports": {
         "./LoggerAction": "./src/LoggerAction.js",
         "./LoggerApi": "./src/LoggerApi.js",
-        "./LoggerTask": "./src/LoggerTask.js",
         "./LoggerGlobal": "./src/LoggerGlobal.js",
+        "./LoggerQuota": "./src/LoggerQuota.js",
+        "./LoggerTask": "./src/LoggerTask.js",
         "./LogManager": "./src/LogManager.js",
         "./performance": "./src/performance.js"
     },
