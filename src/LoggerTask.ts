@@ -43,15 +43,13 @@ export class LoggerTask<CD extends LogTaskData = LogTaskData, CM extends LogTask
         this.labelsDefault = labelsDefault
     }
 
-    public async write<CDD extends Omit<CD, 'task_id' | 'status'>>(
-        entries: {
-            meta: CM
-            data: CDD
-            labels?: { [k: string]: string }
-        }[],
+    public entry<CDD extends Omit<CD, 'task_id' | 'status'>>(
+        meta: CM,
+        data: CDD,
+        labels?: { [k: string]: string },
     ) {
-        await this.logger.write(entries.map((({meta, data, labels}) => this.logger.entry(
-            {
+        return {
+            meta: {
                 resource: {
                     type: 'generic_task',
                     labels: {
@@ -81,7 +79,7 @@ export class LoggerTask<CD extends LogTaskData = LogTaskData, CM extends LogTask
                 trace: meta.trace,
                 spanId: meta.span,
             },
-            {
+            data: {
                 ...data,
                 job: meta.job,
                 task_id: meta.task_id,
@@ -94,6 +92,23 @@ export class LoggerTask<CD extends LogTaskData = LogTaskData, CM extends LogTask
                 } : {}),
                 message: data.message || (meta.task_id + '/' + meta.status),
             },
-        ))))
+        }
+    }
+
+    public async write<CDD extends Omit<CD, 'task_id' | 'status'>>(
+        entries: {
+            meta: CM
+            data: CDD
+            labels?: { [k: string]: string }
+        }[],
+    ) {
+        await this.logger.write(
+            entries.map(
+                ({meta, data, labels}) => {
+                    const d = this.entry(meta, data, labels)
+                    return this.logger.entry(d.meta, d.data)
+                }
+            ),
+        )
     }
 }
