@@ -46,8 +46,11 @@ jobs:
                     npm ci
 
             -   name: Test & Build
+                env:
+                    GLOUD_LOG_KEY: ${{ secrets.GLOUD_LOG_KEY }}
                 run: |
-                    #npm run test
+                    npm run test
+                    rm -f _auth-cloud.json
                     npm run build
 
             -   name: Send code coverage report to Codecov.io
