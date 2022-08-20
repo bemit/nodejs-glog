@@ -82,15 +82,14 @@ export class LoggerAction<CM extends LogActionMeta = LogActionMeta> {
         this.labelsDefault = labelsDefault
     }
 
-    public async write(
-        entries: {
-            meta: CM
-            data: LogActionDataTypes
-            labels?: { [k: string]: string }
-        }[],
+    public entry(
+        meta: CM,
+        data: LogActionDataTypes,
+        labels?: { [k: string]: string },
     ) {
-        await this.logger.write(entries.map((({meta, data, labels}) => this.logger.entry(
-            {
+        const now = new Date()
+        return {
+            meta: {
                 resource: {
                     type: 'generic_task',
                     labels: {
@@ -113,15 +112,32 @@ export class LoggerAction<CM extends LogActionMeta = LogActionMeta> {
                 trace: meta.trace,
                 spanId: meta.span,
             },
-            {
+            data: {
                 ...data,
                 message:
                     'action_op' in data ?
                         data.action + ' _ /' + data.action_op :
                         data.action + ' ' + (data.step_parent || '_') + '#' + data.step_index + ' /' + data.step_op,
-                ts_micro: new Date().getTime(),
-                ts_iso: new Date().toISOString(),
+                ts_micro: now.getTime(),
+                ts_iso: now.toISOString(),
             },
-        ))))
+        }
+    }
+
+    public async write(
+        entries: {
+            meta: CM
+            data: LogActionDataTypes
+            labels?: { [k: string]: string }
+        }[],
+    ) {
+        await this.logger.write(
+            entries.map(
+                ({meta, data, labels}) => {
+                    const e = this.entry(meta, data, labels)
+                    return this.logger.entry(e.meta, e.data)
+                }
+            ),
+        )
     }
 }

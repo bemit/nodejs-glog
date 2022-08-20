@@ -1,4 +1,4 @@
-import * as fs from 'fs'
+import * as  fs from 'fs'
 import { expect, describe, test } from '@jest/globals'
 import { LogManager } from '@bemit/glog/LogManager'
 import { LoggerTask } from '@bemit/glog/LoggerTask'
@@ -39,6 +39,19 @@ describe('LogManager', () => {
         }, {logProject, logId, service: logService})
         logManager.setLogger('default', logManager.getLogger(logId))
         const loggerTask = new LoggerTask(logManager.getLogger('default'), logManager.serviceInfo)
+        await logManager.write('default', [
+            loggerTask.entry(
+                {
+                    job: 'test',
+                    task_id: 'test-task-log',
+                    status: 'running',
+                },
+                {
+                    message: 'test-task-manager ' + new Date().toISOString(),
+                    genericA: Math.floor(Math.random() * (150 - 15 + 1)) + 15,
+                },
+            ),
+        ])
         await loggerTask.write([{
             meta: {
                 job: 'test',
