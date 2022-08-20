@@ -1,6 +1,6 @@
 {
     "name": "@bemit/glog",
-    "version": "0.0.8",
+    "version": "0.1.0-alpha.0",
     "description": "Google Log abstraction for NodeJS as pure ESM.",
     "homepage": "https://bemit.codes",
     "author": {
@@ -20,8 +20,12 @@
     ],
     "type": "module",
     "exports": {
-        "./performance": "./performance/index.js",
-        "./LogManager": "./LogManager/index.js"
+        "./LoggerAction": "./src/LoggerAction.js",
+        "./LoggerApi": "./src/LoggerApi.js",
+        "./LoggerTask": "./src/LoggerTask.js",
+        "./LoggerGlobal": "./src/LoggerGlobal.js",
+        "./LogManager": "./src/LogManager.js",
+        "./performance": "./src/performance.js"
     },
     "repository": {
         "type": "git",
@@ -38,10 +42,10 @@
         "dtsgen": "tsc -d --emitDeclarationOnly --pretty && merge-dirs build/dts build && rm -rf build/dts && rimraf build/**/*.test.*"
     },
     "peerDependencies": {
-        "@google-cloud/logging": "~9.8.0"
+        "@google-cloud/logging": "~10.1.1"
     },
     "devDependencies": {
-        "@google-cloud/logging": "~9.8.0",
+        "@google-cloud/logging": "~10.1.1",
         "@babel/cli": "^7.14.5",
         "@babel/core": "^7.14.6",
         "@babel/eslint-parser": "^7.18.2",

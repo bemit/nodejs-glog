@@ -20,6 +20,12 @@
         "noImplicitAny": false,
         "noUnusedParameters": false,
         "paths": {
+            "@bemit/glog": [
+                "src"
+            ],
+            "@bemit/glog/*": [
+                "src/*"
+            ]
         },
         "outDir": "build/dts"
     },
@@ -28,6 +34,7 @@
         "**/node_modules/"
     ],
     "include": [
-        "src"
+        "src",
+        "tests"
     ]
 }
