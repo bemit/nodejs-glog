@@ -40,7 +40,7 @@
         "clean-dist": "rimraf build",
         "test": "jest -c=\"jest.config.ts\" --passWithNoTests",
         "tdd": "npm test -- --watch --watchman --coverage=false",
-        "dtsgen": "tsc -d --emitDeclarationOnly --pretty && merge-dirs build/dts build && rm -rf build/dts && rimraf build/**/*.test.*"
+        "dtsgen": "tsc -d --emitDeclarationOnly --pretty && merge-dirs build/dts/src build && rm -rf build/dts && rimraf build/**/*.test.*"
     },
     "peerDependencies": {
         "@google-cloud/logging": "~10.1.1"
