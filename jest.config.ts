@@ -36,6 +36,7 @@ const base: Partial<Config.InitialOptions> = {
 const config: Config.InitialOptions = {
     ...base,
     projects: [{
+        // npm test -- --selectProjects test
         displayName: 'test',
         ...base,
         moduleDirectories: ['node_modules', '<rootDir>/node_modules'],

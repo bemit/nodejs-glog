@@ -46,7 +46,11 @@ jobs:
                     npm ci
 
             -   name: Test & Build
+                env:
+                    GLOUD_LOG_KEY: ${{ secrets.GLOUD_LOG_KEY }}
                 run: |
+                    npm run test
+                    rm -f _auth-cloud.json
                     npm run build
 
             -   name: Send code coverage report to Codecov.io
@@ -60,7 +64,8 @@ jobs:
                 #if: github.ref == 'refs/heads/main'
                 if: startsWith(github.ref, 'refs/tags/')
                 run: |
-                    cp package.json build/
+                    #cp package.json build/
+                    node copyPackageJson.js
                     cp README.md build/
                     cp LICENSE build/
                     npm publish build
