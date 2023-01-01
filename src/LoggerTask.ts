@@ -72,7 +72,6 @@ export class LoggerTask<CD extends LogTaskData = LogTaskData, CM extends LogTask
                     },
                 },
                 labels: {
-                    app_env: this.serviceInfo?.app_env as string,
                     ...this.labelsDefault,
                     ...labels || {},
                 },

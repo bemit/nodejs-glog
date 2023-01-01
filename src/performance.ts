@@ -7,7 +7,6 @@ export const getPerformanceInMs = (elapsedTime: [number, number]): number => par
 export const performanceTag = () => {
     const startTime = process.hrtime()
     return (): number => {
-        // todo: maybe checking if called multiple times? but sometimes it may be wanted to know multiple ends for one start?
         const now = process.hrtime(startTime)
         return getPerformanceInMs(now)
     }

@@ -6,8 +6,9 @@ import { LogEntry } from '@google-cloud/logging/build/src/entry'
 import { WriteOptions } from '@google-cloud/logging/build/src/log'
 
 export interface LogServiceInfo {
-    app_env?: string
+    // used as `resource.labels.service`
     service?: string
+    // used as `resource.labels.version`
     version?: string
     logId: string
     logProject: string
@@ -17,13 +18,17 @@ export class LogManager {
     private readonly logging: Logging
     private logger: { [name: string]: Log } = {}
     public readonly serviceInfo: LogServiceInfo
+    public readonly globalLabels: Readonly<{ [k: string]: string }>
 
     constructor(
         init: LoggingOptions,
         serviceInfo: LogServiceInfo,
+        // labels intended for `meta: LogEntry['labels']`
+        globalLabels: { [k: string]: string } = {},
     ) {
         this.logging = new Logging(init) as Logging
         this.serviceInfo = serviceInfo
+        this.globalLabels = Object.freeze(globalLabels)
     }
 
     public getLogging(): Logging {
@@ -44,7 +49,7 @@ export class LogManager {
         this.logger[name] = logger
     }
 
-    public async write<D = any>(
+    public async write<D extends string | {}>(
         name: string,
         entries: {
             data: D

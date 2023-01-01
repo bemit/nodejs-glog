@@ -105,7 +105,6 @@ export class LoggerAction<CM extends LogActionMeta = LogActionMeta> {
                     },
                 },
                 labels: {
-                    app_env: this.serviceInfo?.app_env as string,
                     ...this.labelsDefault,
                     ...labels || {},
                 },
