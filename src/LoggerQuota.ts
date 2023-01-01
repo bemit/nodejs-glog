@@ -19,19 +19,20 @@ export interface LogQuotaData {
 }
 
 /**
- * @see https://cloud.google.com/monitoring/api/resources#tag_api
+ * @see https://cloud.google.com/monitoring/api/resources#tag_generic_task
  */
 export interface LogQuotaMetaResourceLabels {
-    // set from `serviceInfo`
-    service: string
-    // set from `serviceInfo`
-    version: string
+    // id for a task
+    task_id?: string
+    // id of related tasks
+    job?: string
     location?: string
+    namespace?: string
     // set from logger/Logging
     project_id: string
 }
 
-export type LogQuotaMeta = Omit<LogQuotaMetaResourceLabels, 'service' | 'version' | 'project_id'> & {
+export type LogQuotaMeta = Omit<LogQuotaMetaResourceLabels, 'project_id'> & {
     trace?: string
     span?: string
 }
@@ -66,6 +67,7 @@ export class LoggerQuota<CD extends LogQuotaData = LogQuotaData> {
                 {
                     meta: {
                         location, trace, span,
+                        task_id, namespace, job,
                         ...metaRest
                     },
                     data, labels,
@@ -84,10 +86,18 @@ export class LoggerQuota<CD extends LogQuotaData = LogQuotaData> {
                             ...(location ? {
                                 location: location,
                             } : {}),
+                            ...(task_id ? {
+                                task_id: task_id,
+                            } : {}),
+                            ...(namespace ? {
+                                namespace: namespace,
+                            } : {}),
+                            ...(job ? {
+                                job: job,
+                            } : {}),
                         },
                     },
                     labels: {
-                        app_env: this.serviceInfo?.app_env as string,
                         ...this.labelsDefault,
                         ...labels || {},
                     },

@@ -113,7 +113,6 @@ export class LoggerApi<T extends 'api' | 'consumed_api' | 'produced_api', CD ext
                         },
                     },
                     labels: {
-                        app_env: this.serviceInfo?.app_env as string,
                         ...this.labelsDefault,
                         ...labels || {},
                     },

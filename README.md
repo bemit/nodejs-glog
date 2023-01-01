@@ -6,7 +6,7 @@
 [![Coverage Status](https://img.shields.io/codecov/c/github/bemit/glog/main.svg?style=flat-square)](https://codecov.io/gh/bemit/glog/branch/main)
 ![Typed](https://flat.badgen.net/badge/icon/Typed?icon=typescript&label&labelColor=blue&color=555555)
 
-Google Log abstraction for NodeJS.
+Google Log abstraction for NodeJS with typed writers for
 
 ```shell
 npm i --save @bemit/glog @google-cloud/logging
@@ -18,4 +18,4 @@ npm i --save @bemit/glog @google-cloud/logging
 
 [MIT License](https://github.com/bemit/nodejs-glog/blob/main/LICENSE)
 
-© 2022 [bemit](https://bemit.codes)
+© 2023 [bemit](https://bemit.codes)
