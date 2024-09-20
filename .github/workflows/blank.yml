@@ -68,6 +68,7 @@ jobs:
                     node copyPackageJson.js
                     cp README.md build/
                     cp LICENSE build/
-                    npm publish build
+                    cd build
+                    npm publish
                 env:
                     NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
